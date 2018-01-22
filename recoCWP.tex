@@ -1,0 +1,65 @@
+\documentclass[11pt,letterpaper,fleqn]{article}
+\usepackage{graphicx}
+\usepackage{lineno}
+\usepackage{hyperref}
+\usepackage{subfigure}
+\usepackage{cite}
+\usepackage{xcolor,colortbl}
+\usepackage{wrapfig}
+\usepackage{enumitem} %%% uncommenting this line and associated
+%% options only saves about 1/4 page
+% enumitem options
+%\setlist{nosep}
+%\setitemize{wide}
+%\setlist[itemize]{leftmargin=*}
+%\setlist[enumerate]{leftmargin=*}
+
+\selectcolormodel{rgb}
+\definecolor{LHCb dark}{rgb}{0.0000,0.3412,0.6549}%From LHCb logo
+\definecolor{UC red}{rgb}{0.8196,0.1176,0.2314} % from logo
+\definecolor{brickred}{rgb}{0.8, 0.25, 0.33}
+\definecolor{Gray}{gray}{0.85}
+
+%KC see http://en.wikibooks.org/wiki/LaTeX/Page_Layout
+\textwidth      6.5 in
+\textheight     9.0 in
+\hoffset = 0 in
+\voffset = 0 in
+\headheight = 0 in
+\headsep = 0 in
+\topmargin = 0 in
+\oddsidemargin  = 0.0 in
+\evensidemargin = 0.0 in
+
+%KC For ~11 lines per 2 inches. smaller is not easily legible 
+\linespread{0.95}
+
+%adjust enumeration spacing
+% see http://en.wikibooks.org/wiki/LaTeX/List_Structures#Line_spacing
+\let\oldenumerate\itemize
+\renewcommand{\itemize}{
+  \oldenumerate
+  \setlength{\itemsep}{1pt}
+  \setlength{\parskip}{1pt}
+  \setlength{\parsep}{1pt}
+}
+
+\def\s2i2{$S^2 I^2$}
+
+\begin{document}
+\linenumbers
+\thispagestyle{empty}
+
+\input{titlepage.tex}
+\newpage
+\tableofcontents
+\newpage
+\setcounter{page}{1}
+
+\input{all.tex}
+
+%\newpage 
+\bibliographystyle{unsrt}
+\bibliography{recoCWP}
+
+\end{document}
