@@ -5,7 +5,7 @@ Realizing the physics programs of the planned and/or upgraded high-energy physic
 The CWP process was carried out by working groups centered on specific topics. The topics of event reconstruction and software triggers are summarized together in this document and in more detail elsewhere~\cite{RECOCWP}. The reconstruction of raw detector data and simulated data and its processing in real time represent a major component of today's computing requirements in HEP. A recent projection [Campana2016] of the ATLAS 2016 computing model results in $>$85\% of the HL-LHC CPU resources being spent on the reconstruction of data or simulated events. We have evaluated the most important components of next generation algorithms, data structures, and code development and management paradigms needed to cope with highly complex environments expected in HEP detector operations in the next decade. New approaches to data processing were also considered, including the use of novel, or at least, novel to HEP, algorithms, and the movement of data analysis into real-time environments. 
 
 This document will discuss software algorithms essential to the interpretation of raw detector data into analysis-level objects. Specifically, these algorithms can be broadly grouped: 
-\begin{enumerate}
+\begin{enumerate}[itemsep=0ex]
 \item
 {\bf Online}: Algorithms, or sequences of algorithms, executed on events read out from the detector in near-real-time as part of the software trigger, typically on a computing facility located close to the detector itself.
 \item
@@ -45,7 +45,7 @@ Detector calibration and alignment requirements were surveyed. Generally a high 
 \section{Research and development Roadmap and Goals}  
 
 We identify seven broad areas to be critical for software trigger and event reconstruction work over the next decade. These are:
-\begin{enumerate}
+\begin{enumerate}[itemsep=-1ex]
 \item
 Enhanced vectorization programming techniques
 \item
