@@ -155,8 +155,11 @@ The columns are defined as follows:
 \item Offline disk: The total disk available for production and analysis activities. This is expected to scale primarily with the total size of the analysis data.
 \end{enumerate}
 
+\afterpage{
+\clearpage
+\begin{landscape}
 \begin{table}
-\begin{tabular}{|l|l|l|l|l|l|l|l|}
+\begin{tabular}{|l|p{20mm}|p{20mm}|p{20mm}|p{20mm}|p{20mm}|p{20mm}|p{20mm}|} \hline
 Experiment &
 Online CPUs (kHS06) /GPUs  &
 Offline CPUs (kHS06) &
@@ -164,7 +167,7 @@ Input rate to software trigger (kHz) &
 Event rate for analysis (kHz or GB/s) &
 RAW data size (MB/evt) &
 Analysis data size (MB/evt) &
-Offline disk (PB) \\
+Offline disk (PB) \\ \hline
 CMS (2017) &
 500&
 1729&
@@ -172,7 +175,7 @@ CMS (2017) &
 1&
 1.5&
 ~0.03&
-123 \\
+123 \\  \hline
 CMS (HL-LHC) &
 &
 &
@@ -180,15 +183,15 @@ CMS (HL-LHC) &
 5-7.5&
 4.2-4.6&
 &
-\\
+\\ \hline
 ATLAS (2017) &
-28k CPU cores&
+28k \newline CPU cores&
 2194&
 100&
 1&
 1&
 &
-172\\
+172\\ \hline
 ATLAS (HL-LHC) &
 &
 &
@@ -196,31 +199,31 @@ ATLAS (HL-LHC) &
 10&
 5&
 &
-\\
+\\ \hline
 LHCb (2017)&
-25k CPU cores&
+25k \newline CPU cores&
 413&
 1000&
 0.7 Gb/s&
 0.07&
 &
-35\\
+35\\ \hline
 LHCb (Run 3-4) &
 &
 &
 30000&
-$>2 GB/s$&
+$>2$ GB/s&
 0.13&
 &
-\\
+\\ \hline
 ALICE (2017) &
-9k CPU cores + 180 GPUs &
+9k \newline CPU cores, \newline 180 GPUs &
 805&
-0.3 (central Pb-Pb)&
+0.3\newline (central Pb-Pb)&
 &
-100 (central Pb-Pb) &
+100\newline (central Pb-Pb) &
 &
-66 \\
+66 \\ \hline
 ALICE (Run 3) &
 &
 &
@@ -228,15 +231,15 @@ ALICE (Run 3) &
 20 GB/s&
 60&
 &
-60/yr \\
+60/yr \\ \hline
 Belle II (2021) &
-6400 CPU cores&
+6400 \newline CPU cores&
 600&
 30 kHz&
 10 kHz&
 0.1&
 0.01&
-60\\
+60\\ \hline
 ProtoDUNE&
 &
 5&
@@ -244,7 +247,7 @@ ProtoDUNE&
 0.6 GB/s&
 60&
 &
-\\
+\\ \hline
 DUNE (0 supp)&
 &
 &
@@ -252,18 +255,21 @@ DUNE (0 supp)&
 11 MHz&
 $1.5e^{-4}$&
 &
-54/yr \\
+54/yr \\ \hline
 ILC (ILD,SiD)&
 250&
 400&
 1 GB/s&
-1GB/s&
+1 GB/s&
 1&
 0.01&
-150 \\
+150 \\ \hline
 \end{tabular}
 \caption{The LHCb resource requirements for Run 3 and 4 are currently under review, and will be agreed following publication of a computing model document later in 2018. The figures given here are minimal requirements below which physics performance is already known to degrade in an unacceptable manner.}
 \end{table}
+\end{landscape}
+\clearpage
+}
 
 This table illustrates that there is substantial commonality in the scale of computing needed for current generation experiments. It is also clear that there is a large increase in the scale of data expected for the next generation of experiments. This is true both in terms of event rate and event size.
 
