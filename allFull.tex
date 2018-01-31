@@ -1,12 +1,3 @@
-HSF-CWP-2017-14
-
-Software trigger and event reconstruction
-
-Editors : David Lange, Princeton University (David.Lange@cern.ch), Vladimir Vava Gligorov, LPNHE, Universite Pierre et Marie Curie, Universite Paris Diderot, CNRS/IN2P3 (vgligoro@lpnhe.in2p3.fr) 
-
-Contributors [incomplete, please add] : Johannes Albrecht, Ken Bloom, Tommaso Boccali, Antonio Boveia (Ohio State University), Michel De Cian (University of Heidelberg), Caterina Doglioni (Lund University), Agnieszka Dziurda (CERN), Markus Elsing, Amir Farbin, Conor Fitzpatrick (EPFL), Frank Gaede (DESY), Simon George, Hadrien Grasland, Lucia Grillo (University of Manchester), Benedikt Hegner (CERN), William Kalderon (Lund University), Sami Kama, Thorsten Kollegger, Patrick Koppenburg (Nikhef), Slava Krutelyov, Rob Kutschke (Fermilab), Walter Lampl, Ed Moyse, Andrew Norman, Marko Petric, Francesco Polci (LPNHE), Karolos Potamianos, Gerhard Raven, Fedor Ratnikov (HSE, YSDA), Martin Ritter,  Andrea Rizzi, David Rousseau, Andy Salzburger, Liz Sexton Kennedy(Fermilab), Michael D Sokoloff (University of Cincinnati) Sokoloff, Graeme Stewart (CERN), Mohammad Al-Turany,  Andrey Ustyuzhanin (HSE, YSDA), Brett Viren, Mike Williams (MIT), Frank Winklmeier (University of Oregon), Frank Wuerthwein (University of California, San Diego), Eduardo Rodrigues (University of Cincinnati)
-
-
 \section{Introduction and Scope}
 
 Realizing the physics programs of the planned and/or upgraded high-energy physics (HEP) experiments over the next 10 years will require the HEP community to address a number of challenges in the area of software and computing. For this reason, the HEP software community has engaged in a planning process over the past two years, with the objective of identifying and prioritizing the research and development required to enable the next generation of HEP detectors to fulfill their full physics potential. The aim is to produce a Community White Paper (CWP) [HSF2017] which will describe the community strategy and a roadmap for software and computing research and development in HEP for the 2020s. This activity is organised under the umbrella of the HEP software foundation (HSF). The LHC experiments and HSF have been specifically charged by the WLCG project, but have reached out to other HEP experiments around the world throughout the community process in order to make it as representative as possible.
@@ -132,8 +123,302 @@ Code quality demands increase as traditional offline analysis components migrate
 
 These challenges are further complicated by a growing diversity of developers in the software trigger and event reconstruction areas. The gap between the basic programming techniques which students learn in their undergraduate courses and the state-of-the-art programming techniques required to fully exploit the power of emerging parallel hardware architectures. Software development methods and programming techniques evolve particularly quickly and often developers are self taught on current techniques. The experiment software environment must facilitate contributions from a range of developers while adjusting to challenges of a more and more complex online and offline software toolkit.
 
-\section{Current approaches}
+\section{Current Approaches}
+
+In this section, we summarize current practices and resource requirements for software trigger and event reconstruction implementation and infrastructure needs. These include the scale of resource requirements for these activities, the type of data structures and data contents kept for custodial storage and analysis use, and calibration technique requirements across different experiments in high-energy physics. For each topic, we will briefly introduce the issues and then summarize experiment specific implementation details where available. This is meant to provide a representative range of approaches and to illustrate where the most challenging aspects are.
+
+\subsection{Computing Resource Requirements}
+
+The table below summarizes the online and offline computing requirements of current and future experiments. Not all quantities can be measured for all experiments, and many items evolve depending on where in the lifecycle an experiment is. For example, disk requirements depend both on the number of events collected in a given running period but also on how long the experiment has been collecting data still of relevance for current analysis activities. More information about each online and offline computing system found in the references [ALICE2015, Allton2017, ATLAS2015, CMS2015, DUNE2015, DUNE2017, LHCb2017, Miyamoto2015, Richter2016].
+
+The columns are defined as follows:
+\begin{enumerate}
+\item Online CPUs: Approximate size (or fair-share in case of a shared resource) of the real-time processing facility available for use by the experiment.
+\item Offline CPUs: Approximate size (or fair-share in case of a shared resource) of the offline processing facility available for use by the experiment. For LHC experiments we have given the 2017 pledged CPU amount including both Tier0 and distributed Tier1/2 resources. These resources are used for Monte Carlo simulation, analysis and event reconstruction processing. Thus, these numbers only provide an indication of the CPU requirements for event reconstruction.
+\item Input rate to software trigger: Approximate rate of events seen by software trigger. Typically this is the output rate of the hardware trigger.
+\item Event rate for analysis: Approximate rate of events saved by the experiment for custodial storage. Typically this is the rate of events saved by the software trigger system.
+\item RAW data size: Approximate size of typical physics events saved for offline processing. While the analysis tier size for an experiment is only loosely connected to the raw data size, this measure does provide a measure of the total data volume for the offline event processing. As discussed above, there are also frequently reduced data formats saved by trigger systems instead of the full raw data. These are typically much smaller than the sizes provided here.
+\item Analysis data size: Approximate size of typical physics events in the format used most frequently for analysis (e.g., xAOD in ATLAS, miniAOD in CMS).
+\item Offline disk: The total disk available for production and analysis activities. This is expected to scale primarily with the total size of the analysis data.
+\end{enumerate}
+
+\begin{table}
+\begin{tabular}{|l|l|l|l|l|l|l|l|}
+Experiment &
+Online CPUs (kHS06) /GPUs  &
+Offline CPUs (kHS06) &
+Input rate to software trigger (kHz) &
+Event rate for analysis (kHz or GB/s) &
+RAW data size (MB/evt) &
+Analysis data size (MB/evt) &
+Offline disk (PB) \\
+CMS (2017) &
+500&
+1729&
+100&
+1&
+1.5&
+~0.03&
+123 \\
+CMS (HL-LHC) &
+&
+&
+750&
+5-7.5&
+4.2-4.6&
+&
+\\
+ATLAS (2017) &
+28k CPU cores&
+2194&
+100&
+1&
+1&
+&
+172\\
+ATLAS (HL-LHC) &
+&
+&
+1000&
+10&
+5&
+&
+\\
+LHCb (2017)&
+25k CPU cores&
+413&
+1000&
+0.7 Gb/s&
+0.07&
+&
+35\\
+LHCb (Run 3-4) &
+&
+&
+30000&
+$>2 GB/s$&
+0.13&
+&
+\\
+ALICE (2017) &
+9k CPU cores + 180 GPUs &
+805&
+0.3 (central Pb-Pb)&
+&
+100 (central Pb-Pb) &
+&
+66 \\
+ALICE (Run 3) &
+&
+&
+50&
+20 GB/s&
+60&
+&
+60/yr \\
+Belle II (2021) &
+6400 CPU cores&
+600&
+30 kHz&
+10 kHz&
+0.1&
+0.01&
+60\\
+ProtoDUNE&
+&
+5&
+&
+0.6 GB/s&
+60&
+&
+\\
+DUNE (0 supp)&
+&
+&
+&
+11 MHz&
+$1.5e^{-4}$&
+&
+54/yr \\
+ILC (ILD,SiD)&
+250&
+400&
+1 GB/s&
+1GB/s&
+1&
+0.01&
+150 \\
+\end{tabular}
+\caption{The LHCb resource requirements for Run 3 and 4 are currently under review, and will be agreed following publication of a computing model document later in 2018. The figures given here are minimal requirements below which physics performance is already known to degrade in an unacceptable manner.}
+\end{table}
+
+This table illustrates that there is substantial commonality in the scale of computing needed for current generation experiments. It is also clear that there is a large increase in the scale of data expected for the next generation of experiments. This is true both in terms of event rate and event size.
+
+\subsection{Analysis Data tiers and data structures}
+Here we summarize data structures either consumed by, or produced by, the software trigger and event reconstruction applications in some current HEP experiments. These are meant to be representative of current practices and not inclusive of all approaches used in HEP. Historically, these are the raw data format and analysis data format, respectively. Recent work has led to some evolution in what sort of data structures are used in some experiments. We summarize the approach taken and issues observed by different experiments.
+
+LHCb: Major advances were made in the LHCb trigger system in Run 2. Increasing the number of (logical) cores used in the trigger farm to 50 000, deploying faster reconstruction algorithms, and data-caching (described below) now allow the multilayer software trigger system to execute the offline reconstruction algorithms. LHCb now splits its 0.7GB/s of data written to permanent storage into two distinct streams. The full stream persists all low-level data as in Run 1. The turbo stream persists a user-defined selection of high-level information, typically a small subset of reconstructed objects in each selected event. This makes it possible to keep a much larger number of events, with the cost being that the lower-level information is lost. Several LHCb publications have now demonstrated that this reduced-file-size approach works in practice, with typical event size reduction being one order of magnitude with respect to the raw event. 
+
+CMS: The data formats used by CMS for event data are built from custom written C++ classes organized into a ROOT TTree-based structure by the CMS framework. The RAW data is largely composed of a packed byte format organized and segmented according to the detector readout electronics layout. Analysis data are made up of more complex objects, used also in the reconstruction and analysis algorithms themselves. Particle flow constituent objects and high level physics objects (e.g. muon, electrons, jets) are made of classes derived from a common base class in order to make combination of objects in a straightforward and efficient manner.
+
+Formats in Run 2 have evolved to include more compact data structures (e.g., the miniAOD formats) and for a few trigger streams the concept of “scouting”. Instead of keeping raw detector data, the scouting data structures keep only a small set of high-level objects as derived in the CMS software trigger. This makes the data format very compact (about 1\% of a full raw data event) and allows for a very high rate of data to be kept. CMS has also used data structures with lossy-compression algorithms (e.g., saving variables using less than 32 bits) to reduce the size of its “MIniAOD” data tier, now widely used in analysis. This type of approach is widely applicable where the detector configuration or reconstruction algorithm itself limits resolution to be far worse than that implied by the usual 32-bit or 64-bit data types. While the custom structures developed by each experiment so far are unlikely to be completely generalizable, we would still benefit from a field-standard, or data-science standard library containing those parts which are in common.  CMS is also investigating how less complex data structures can allow for even small data formats that match the needs of the final analysis stages.
+
+ATLAS: [computing experts should add here about other data formats]. In Run 2, a reduced analysis object stream has been added, containing only high-level trigger jet objects, to be used for the search of low-mass hadronic resonances in trigger-level analyses. This stream requires roughly 1\% of the full HLT bandwidth, allowing for data taking rates comparable to the full offline physics stream [ATLASTwiki] 
+
+\subsection{Most resource consuming algorithm}
+ALICE: Reconstruction and compression of data from the ALICE TPC is the dominant component of the ALICE event reconstruction and the driving feature behind the design of the O2 facility [ALICE2015] for event reconstruction starting in LHC Run 3. The reconstruction of particle trajectories from the ALICE TPC is done by cellular automation and Kalman filter algorithms. In the Run 2 high-level trigger, these algorithms run on GPUs as part of a pipelined system.
+
+LHCb: The specific forward geometry of LHCb, with a dipole magnet, and its use of RICH detectors for particle identification, have a significant impact on both the time cost of reconstruction algorithms and their utility in triggering and real-time analysis. The largest components are pattern recognition and Kalman fitting of tracks, which run on all events, and calorimeter and RICH reconstruction, which run on a subset of events. The overall CPU cost for these algorithms is roughly the same, considering the different fractions of events they run on. The full tracking cost greatly depends on the pT range of tracks being searched for. The RICH reconstruction is expensive, but because many decays of interest include kaons, its results reduce the time spent in later processing for combining tracks into displaced vertices.
+
+CMS: The computing resource needs of trigger and reconstruction algorithms is a strong function of event complexity (or pileup) in CMS. In Run 2 conditions, the track pattern recognition is the largest single CPU contributor in CMS reconstruction. Kalman fitting [CMS2014], particle flow algorithms [CMS2017] and HCAL local reconstruction algorithms are also a considerable fraction of the total offline reconstruction CPU budget. The importance of these algorithms is also true for online trigger algorithm configurations where a simplified particle flow technique is used in the final event selections. As they are carried out in each event online, the calorimetric raw data unpackers and algorithms for pileup rejection at the detector level (e.g. to form reconstructed detector clusters) are also quite important online. Both online and offline, CMS has implemented a low track pT threshold (200-300 MeV) in order to achieve the best possible particle flow performance. This has a large impact on the CPU needs of CMS, not only in tracking, but elsewhere in the reconstruction where the algorithm complexity scales with the number of tracks reconstructed. For HL-LHC, CMS has the additional computational challenge of clustering and particle flow with its high-granularity calorimeter.
+
+\subsection{Calibration techniques and requirements}
+LHCb: the full detector alignment and calibration of all sub-detectors must continue to be performed continuously in real-time, and the real-time monitoring framework must also be maintained in order to enable problems to be quickly identified and fixed. The calibrations are performed [LHCbRTCalib2016] at a certain frequency:
+\begin{itemize}
+\item
+A few times per year: Muon system alignment, RICH mirror alignment, Fine calorimeter calibration 
+\item
+Start of each LHC fill: Vertex detector alignment, Full tracker alignment, Straw-tube tracker gas calibration, Coarse calorimeter calibration
+\item
+Multiple times per fill: RICH refractive index calibration
+\end{itemize}
+In order to perform the calibrations in real-time, LHCb exploits the trigger farm to run the calibration tasks in parallel with trigger tasks. This enables e.g. the full tracker alignment to be completed in around 8 minutes. The calibration jobs are automated and return an updated set of constants which are compared to the result of the previous calibration; if the change goes beyond a certain threshold the constants are updated and an expert is alerted to validate the update. The jobs themselves are built on the same codebase as the rest of the LHCb reconstruction, and the monitoring uses the same setup as the general detector monitoring.
+
+CMS: The prompt calibration loop is an automated process, runs as part of the CMS Tier-0 facility using a small subset of the total data volume saved by the CMS trigger. Example calibrations include the assessment of bad detector channels for each run as well as the global tracker alignment. Results are typically available within 24 hours and thus are used in the full prompt reconstruction processing of the CMS data. Other calibrations, including the calorimeter light output calibrations, are performed outside of the Tier-0 infrastructure but in time for the prompt reconstruction processing on a regular interval. Finally, calibrations requiring higher statistics are performed either as the LHC data taking period progresses (e.g. performed once adequate statistics are obtained) or after the end of the run to achieve the ultimate detector performance required by analysis (e.g, tracker module level alignment and full energy scale calibration of the electromagnetic calorimeter). 
+
+ATLAS: [reco experts should add overall strategy here]. For real-time analyses with trigger jets, reconstruction and calibration are  kept as close as possible to the full reconstruction. Dedicated calibrations mitigating the effect of pile-up and restoring the hadronic energy scale are applied to these partially recorded events, making the properties of jets reconstructed at the HLT comparable to those of jets reconstructed from full events. These calibrations account for differences between fully recorded jets as well as for missing information from detectors other than the calorimeters. In the case of jets during the first part of Run 2, only calorimeter information is available to the HLT for jet reconstruction and calibration. It is foreseen that tracking information can be added already during Run 2 using the Fast TracKer (FTK). The jet reconstruction procedure for trigger jets is summarized in [Abreu2014]. 
+
+ALICE: Real-time calibration and data quality monitoring are critical parts of the O2 system for Run 3 as the data volume processed is too large to be redone in a later, truely offline, processing.
+
+\section{Research and Development Roadmap}
+
+This section describes the proposed research and development roadmap defined in the working group. We identify seven broad areas to be critical for software trigger and event reconstruction work over the next decade. These  are:
+\begin{itemize}
+\item Enhanced vectorization programming techniques
+\item Algorithms and data structures to efficiently exploit many-core architectures
+\item Algorithms and data structures for non-x86 computing architectures (e.g., GPUs, FPGAs)
+\item Enhanced QA/QC for reconstruction techniques
+\item Real-time analysis
+\item Precision physics-object reconstruction, identification and measurement techniques
+\item Fast software trigger and reconstruction algorithms for high-density environments
+\end{itemize}
+For each area, we identify the overall goals of the research, as well as short, medium and long term milestones. These can be viewed as goals that should be achieved in advance of next-generation experiments. The short and medium term milestones are intended to be achievable on a timescale to inform software, computing and trigger technical design reports where possible.
+
+\subsection{Roadmap area 1: Enhanced vectorization programming techniques}
+\noindent {\bf Motivation}: HEP developed toolkits and algorithms typically make poor use of vector units on commodity computing systems. Improving this will bring speedups to applications running on both current computing systems and most future architectures.
+
+\noindent {\bf Overall goal}: To evolve current toolkit and algorithm implementations, and best programming techniques to better use SIMD capabilities of current and future computing architectures.
+
+\vskip 0.5cm
+\noindent {\bf Short-term goals}: Identify best practices and documented examples of how HEP code was improved to increase vectorization performance via series of developer meetings. Adopt and apply industry tools for code performance analysis to identify tools of particular importance for investigation.
+
+\vskip 0.5cm
+\noindent {\bf Medium-term goals}: Initiate work to make measurable improvement to vectorization performance of HEP code stacks via software toolkit improvements or rewrites. Continue developer discussions while toolkits are improved to facilitate co-development where common approaches to improving different toolkits are possible. 
+
+\vskip 0.5cm
+\noindent {\bf Long-term goals}: Demonstrate and facilitate widespread experiment adoption of new or improved toolkits.
+
+\subsection{Roadmap area 2: Algorithms and data structures to efficiently exploit many-core architectures}
+\noindent {\bf Motivation}: Computing platforms are generally evolving towards having more cores in order to increase processing capability. This evolution has resulted in multi-threaded frameworks in use, or in development, across HEP. Algorithm developers can further improve throughput by being thread safe and enabling the use of fine-grained parallelism. 
+
+\vskip 0.5cm
+\noindent {\bf Overall goal}: To evolve current event models, toolkits and algorithm implementations, and best programming techniques to improve the throughput of multithreaded software trigger and event reconstruction applications.
+
+\vskip 0.5cm
+\noindent {\bf Short-term goals}: Identify the key lessons of the work done to make current toolkits thread-safe or at least “thread friendly”. Understand and document what conceptual limitations a thread-safe framework imposes on reconstruction and selection logic, and what kind of workflow scheduling it requires. Identify what classes of reconstruction and selection algorithms are able to efficiently work in a multi-threaded framework and which are not. 
+
+\vskip 0.5cm
+\noindent {\bf Medium-term goals}: Document best practice for thread safe computing in a way which allows new collaboration members to efficiently develop in such a framework. Develop a toolkit to logically express proposed new algorithms in terms of data sources, sinks, and consumers, which can automatically analyze an algorithm and establish how thread-safe its logic is.
+
+\vskip 0.5cm
+\noindent {\bf Long-term goals}: Introduce training on multi-threaded and more generally parallel algorithm development in physics syllabi, building on the experience gained and the toolkits developed earlier.
+
+\subsection{Roadmap area 3: Algorithms and data structures for non-x86 computing architectures (e.g., GPUs, FPGAs)}
+\noindent {\bf Motivation}: Computing architectures using technologies beyond CPUs offer an interesting alternative for increasing throughput of the most time consuming trigger or reconstruction algorithms. Such architectures (e.g., GPUs, FPGAs) could be easily integrated into dedicated trigger or specialized reconstruction processing facilities (e.g., online computing farms).
+
+\vskip 0.5cm
+\noindent {\bf Overall goal}: To demonstrate how the throughput of toolkits or algorithms can be improved through the use of new computing architectures in a production environment. 
+
+\vskip 0.5cm
+\noindent {\bf Short-term goals}: Develop reliable and portable benchmarking for mixed architectures which properly accounts for I/O overheads between them. Using this, identify, and develop prototypes for, event reconstruction and software trigger algorithms where specialized hardware is likely to bring significant improvement in metrics such as total event throughput per cost or throughput per Watt. 
+
+\vskip 0.5cm
+\noindent {\bf Medium-term goals}: Demonstrate programming models and software toolkits appropriate for a heterogeneous computing environment. Considerations include facilitating high-level code-reuse between architectures, construction of appropriate data structures, and adoption of externally developed toolkits, such as mathematical libraries, that provide significant performance improvements on certain architectures. Deploy prototypes for limited scale operational tests where resources are available in a controlled fashion (e.g., experiment trigger computing facilities).
+
+\vskip 0.5cm
+\noindent {\bf Long-term goals}: Demonstrate ability of event reconstruction applications to reliably use and benefit from heterogenous computing facilities on a distributed computing system. Define cost-benefit metrics to use to guide facility providers for providing the largest event throughput in cases where HEP controls the mix of hardware to be purchased.
+
+\subsection{Roadmap area 4: Enhanced Q/A Q/C for reconstruction techniques}
+\noindent {\bf Motivation}: HEP experiments have extensive continuous integration systems, including varying types of code regression checks. These are typically maintained by individual experiments and have not yet reached the scale where statistical regression checks, as well as technical and physics performance can be enabled for each proposed software change.
+
+\vskip 0.5cm
+\noindent {\bf Overall goal}: Enable the development, automation, and deployment of extended Q/A and Q/C tools and facilities for software trigger and event reconstruction algorithms. 
+
+\vskip 0.5cm
+\noindent {\bf Short-term goals}: Discuss integration and testing systems currently used by experiments to    formulate requirements for scope and scale needed for a common integration system capable of providing developers feedback on trigger and event reconstruction outputs according to physics and technical metrics.
+
+\vskip 0.5cm
+\noindent {\bf Medium-term goals}: Develop and demonstrate a scalable system for use by multiple experiments based on industry standard continuous integration tools. Define requirements for regression and validation techniques (for Monte Carlo and data studies) given evolution towards heterogeneous hardware and real-time calibrations.
+
+\vskip 0.5cm
+\noindent {\bf Long-term goals}: Develop and demonstrate next-generation tools needed for regression testing, software integration and validation and data quality related tasks. 
+
+\subsection{Roadmap area 5: Real-time analysis}
+
+\noindent {\bf Motivation}: Real-time analysis techniques are being adopted to enable a wider range of physics signals to be saved by the trigger for final analysis. As rates increase, these techniques can become more important and widespread by enabling only the parts of an event associated with the signal candidates to be saved, reducing the required disk space.
+
+\vskip 0.5cm
+\noindent {\bf Overall goal} : Evaluate and demonstrate the tools needed to facilitate real-time analysis techniques. Research topics include compression and custom data formats; toolkits for real-time detector calibration and validation which will enable full offline analysis chains to be ported into real-time; and frameworks which will enable non-expert offline analysts to design and deploy real-time analyses without compromising data taking quality. 
+
+\vskip 0.5cm
+\noindent {\bf Short-term goals}: Discuss the ongoing real-time analysis frameworks being built by different HEP experiments and establish areas of commonality. Understand the extent to which cross-experiment toolkits can help with these areas. 
+
+\vskip 0.5cm
+\noindent {\bf Medium-term goals}: Develop common toolkits for enabling real-time analysis across experiments, drawing on experience and collaboration with real-time applications in industry wherever possible. Develop a framework which enables non-experts to design and deploy real-time analyses without threatening the integrity of data taking.
+
+\vskip 0.5cm
+\noindent {\bf Long-term goals}: Begin to include real-time analysis requirements in the design experiments (in particular high luminosity hadron colliders such as FCC). This means explicitly optimizing detector hardware not for physics which can be done with events we can afford to store to disk, but optimizing for physics which can be done in real-time.
+
+\subsection{Roadmap area 6: Precision physics-object reconstruction, identification and measurement techniques}
+
+\noindent {\bf Motivation}: The central challenge for object reconstruction at HL-LHC is thus to maintain excellent efficiency and resolution in the face of high pileup values, especially at low object pT. Both trigger and reconstruction approaches need to exploit new techniques and higher granularity detectors to maintain or even improve physics measurements in the future.
+It is also becoming increasingly clear that reconstruction in very high pileup environments, such as the HL-LHC or FCC-hh, will not be possible without adding some timing information to our detectors, in order to exploit the finite time during which the beams cross and the interactions are produced.
+
+\vskip 0.5cm
+\noindent {\bf Overall goal}: Develop and demonstrate tools needed to efficient techniques for physics object reconstruction and identification in complex environments.
+
+\vskip 0.5cm
+\noindent {\bf Short-term goals}: Identify areas where either new toolkits based on either novel techniques or new detector designs, are likely to achieve significant physics quality improvements especially in very dense (e.g., high pileup) environments at facilities including HL-LHC and FCC-hh. Known candidates are charged tracking techniques including precision timing detector information, jet imaging techniques, and particle-flow algorithms that exploit high-precision calorimetry. 
+ 
+\vskip 0.5cm
+\noindent {\bf Medium-term goals}: Development and demonstration of algorithms and integrated software packages that are efficient and performant in complex environments on planned detector configurations for HL-LHC. Understand interplay between new information and traditional observables to determine how physics measurables should be best derived. Development of algorithms to optimize splitting events containing different sets of objects to obtain the best balance between data storage overhead and data processing overhead during physics analyses.
+
+\vskip 0.5cm
+\noindent {\bf Long-term goals}: Deploy algorithms in experimental software stacks as they mature.
+
+\subsection{Roadmap area 7: Fast software trigger and reconstruction algorithms for high-density environments}
+
+\noindent {\bf Motivation}: Future experimental facilities will bring a large increase in event complexity. The scaling of current-generation algorithms with this complexity must be improved to avoid a large increase in resource needs. In addition, it may be desirable or indeed necessary to deploy new algorithms, including advanced machine learning techniques developed in other fields, in order to solve these problems.
+
+\vskip 0.5cm
+\noindent {\bf Overall goal}: Evolve or rewrite existing toolkits and algorithms focused on their physics and technical performance at high event complexity (e.g. high pileup at HL-LHC). Most important targets are those which limit expected throughput performance at future facilities (e.g., charged-particle tracking). A number of such efforts are already in progress across the community.
+
+\vskip 0.5cm
+\noindent {\bf Short-term goals}: Identify additional areas where substantial gains in event reconstruction and software trigger algorithms may be obtained by either a large-scale reimplementation of existing algorithms or by the use of a new algorithmic approach (including machine learning concepts). Possible areas of investigation include improved memory locality for algorithms and data structures.
+
+\vskip 0.5cm
+\noindent {\bf Medium-term goals}: Develop and demonstrate new toolkits. Evaluate their effectiveness against current approaches using both physics driven and event throughput per computing cost metrics. 
+\vskip 0.5cm
+\noindent {\bf Long-term goals}: Deploy algorithms in experimental software stacks as they mature. It is particularly important to test new approaches using data driven studies to demonstrate robustness against changing detector and accelerator operating conditions.
+
+\section{Conclusions}
+
+The next decade will see the volume and complexity of data being processed by HEP experiments increase by at least one order of magnitude. While much of this increase is driven by the planned upgrades to the four major LHC detectors, new experiments such as DUNE will also make significant demands on the HEP data processing infrastructure. It is therefore essential that event reconstruction algorithms and software triggers continue to evolve so that they are able to efficiently exploit future computing architectures and deal with this increase in data rates without loss of physics capability. 
+
+We have identified seven key areas where research and development is necessary to enable the community to exploit the full power of the enormous datasets which we will be collecting. Three of these areas concern the increasingly parallel and heterogeneous computing architectures which we will have to write our code for. In addition to a general effort to vectorize our codebases, we must understand what kinds of algorithms are best suited to what kinds of hardware architectures, develop benchmarks that allow us to compare the physics-per-dollar-per-watt performance of different algorithms across a range of potential architectures, and find ways to optimally utilise heterogeneous processing centres. The consequent increase in the complexity and diversity of our codebase will necessitate both a determined push to educate tomorrow’s physicists in modern coding practices, and a development of more sophisticated and automated quality assurance and control for our codebases. The increasing granularity of our detectors, and the addition of timing information, which seems mandatory to cope with the extreme pileup conditions at the HL-LHC, will require us to both develop new kinds of reconstruction algorithms and to make them fast enough for use in real-time. Finally, the increased signal rates will mandate a push towards real-time analysis in many areas of HEP, in particular those with low-pT signatures.
+
+The success of this research and development program will be intimately linked to challenges confronted in other areas of HEP computing, most notably the development of software frameworks which are able to support heterogeneous parallel architectures, including the associated data structures and I/O, the development of lightweight detector models that maintain physics precision with minimal timing and memory consequences for the reconstruction, enabling the use of offline analysis toolkits and methods within real-time analysis, and an awareness of advances machine learning reconstruction algorithms being developed outside HEP and the ability to apply them to our problems. For this reason perhaps the most important task ahead of us is to maintain the community which has coalesced together in this CWP process, so that the work done in these sometimes disparate areas of HEP fuses coherently together into a solution to the problems facing us over the next decade.
 
 
+ 
 
-blah~\cite{HSFWEB}
