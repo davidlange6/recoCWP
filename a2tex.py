@@ -143,7 +143,8 @@ def main():
 
     affiliation_map = {}
     affiliation_listing = []
-    for author in author_list:
+    for author in sorted(author_list, key=lambda author: author.surname):
+#    for author in author_list:
         for affiliation in author.affiliations:
             if affiliation not in affiliation_map:
                 if affiliation in institute_address:
