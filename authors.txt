@@ -1,0 +1,45 @@
+Albrecht, Johannes   - TUDortmund 
+Bloom, Ken  - UNebraska 
+Boccali,Tommaso   - INFNPISA
+Boveia, Antonio   - UOhio
+De Cian, Michel   - UHeidelberg 
+Doglioni,Caterina   - ULund (2)
+Dziurda,Agnieszka   - CERN 
+Elsing,Markus   - CERN 
+Farbin,Amir   - UTexas
+Fitzpatrick,Conor   - EPFL 
+Gaede,Frank   - DESY 
+George,Simon   - RHU
+Gligorov, Vladimir - LPNHE (1)
+Grasland,Hadrien   - LAL
+Grillo,Lucia   - UManchester 
+Hegner,Benedikt   - CERN 
+Kalderon,William   - ULund
+Kama,Sami   - SMU 
+Kollegger,Thorsten   - GSI
+Koppenburg,Patrick   - NIKHEF
+Krutelyov,Slava   - UCSD
+Kutschke,Rob   - Fermilab 
+Lampl,Walter   - UArizona 
+Lange, David - UPrinceton
+Moyse,Ed   - UAmherst 
+Norman,Andrew   - Fermilab 
+Petric,Marko   - CERN 
+Polci,Francesco   - LPNHE 
+Potamianos,Karolos   - DESY 
+Raven,Gerhard  - NIKHEF
+Ratnikov,Fedor   - HSEYSDA 
+Ritter,Martin   - LMU
+Rizzi,Andrea   - INFNPISA
+Rodrigues,Eduardo   - UCincinnati
+Rousseau,David   - LAL
+Salzburger,Andy   - CERN 
+Sexton Kennedy,Liz  - Fermilab 
+Sokoloff,Michael D   - UCincinnati 
+Stewart,Graeme   - CERN 
+Al-Turany,Mohammad   - GSI  
+Ustyuzhanin,Andrey   - HSEYSDA 
+Viren,Brett   - Fermilab 
+Williams,Mike   - MIT 
+Winklmeier,Frank   - OREGON
+Wuerthwein,Frank   - UCSD
