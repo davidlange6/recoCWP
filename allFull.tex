@@ -33,13 +33,14 @@ Specifically, these algorithms can be categorized as:
 \begin{enumerate}
 \item {\bf Online}: Algorithms, or sequences of algorithms, executed on events read out from the detector in near-real-time as part of the software trigger, typically 
 on a computing facility located close to the detector itself.
-\item Offline: As distinguished from online, any algorithm or sequence of algorithms executed on the subset of events preselected by the trigger system, or generated 
+\item {\bf Offline}: As distinguished from online, any algorithm or sequence of algorithms executed on the subset of events preselected by the trigger system, or generated 
 by a Monte Carlo simulation application, typically in a distributed computing system.
 \item
-{\bf Reconstruction}: The transformation of raw detector information into higher level objects used in physics analysis. Depending on the experiment in question, these 
-higher level objects might be charged particle trajectories (``tracks''), neutral or charged particle calorimeter clusters, Cherenkov rings, jets, and so on. A defining 
-characteristic of ``reconstruction'' which separates it from ``analysis'' is that the quality criteria used in the reconstruction to, for example, minimize the number of 
-fake tracks, are independent of how those tracks will be used later on. Reconstruction algorithms are also typically run as part of the processing carried out by centralized computing facilities.
+{\bf Reconstruction}: The transformation of raw detector information into higher level objects used in physics analysis. 
+Depending on the experiment in question, these 
+higher level objects might be charged particle trajectories (``tracks''), neutral or charged particle calorimeter clusters, Cherenkov rings, jets, and so on. 
+ A defining characteristic of “reconstruction” which separates it from “analysis” is that the quality criteria used in the reconstruction to, for example, minimize the number of fake tracks, should be general enough to be used in the full range of physics studies required by the experimental physics program.
+Reconstruction algorithms are also typically run as part of the processing carried out by centralized computing facilities.
 \item
 {\bf Trigger}: the online classification of events, performed with the objective of reducing either the number of events which are kept for further ``offline'' analysis, 
 the size of such events, or both. In this working group we were only concerned with software triggers, whose defining characteristic is that they process data without a 
@@ -100,9 +101,9 @@ spacing, both possibly with luminosity leveling techniques that would provide a 
 consolidation during LS3 for initial HL-LHC operations, with improvements to various detector components, followed by a potential later Upgrade II with a pileup of 50 to 60, to 
 run from roughly 2030 onwards. The HL-LHC project is expected to run for at least 10 years. 
 \item
-Super KEKB: The Super KEKB facility \cite{Ohnishi2013}, together with the Belle-II experiment \cite{BelleII2010}, plans to achieve a 40 times increase in instantaneous luminosity over that 
-achieved by the previous generation of $e^+e^-$ colliders operating on or near the Upsilon(4S) resonance (KEK-B and PEP-II). Super KEKB should begin production data taking in 2018 and 
-run until at least 2024 with a goal of 50~ab$^{-1}$ of data collected (e.g., nearly 60 billion B-B pair events recorded). 
+Super KEK-B: The Super KEK-B facility \cite{Ohnishi2013}, together with the Belle-II experiment \cite{BelleII2010}, plans to achieve a 40 times increase in instantaneous luminosity over that 
+achieved by the previous generation of $e^+e^-$ colliders operating on or near the Upsilon(4S) resonance (KEK-B and PEP-II). Super KEK-B should begin production data taking in 2018 and 
+run until at least 2024 with a goal of 50~ab$^{-1}$ of data collected (e.g., nearly 60 billion $B$-$\bar B$ pair events recorded). 
 \item
 Long Baseline Neutrino Facility (LBNF): The LBNF project \cite{DUNE2016} is planning a high-intensity neutrino beamline from Fermilab to the SURF underground facility in South Dakota. 
 Based on the NuMI beamline, LBNF plans a proton-beam power of 1.2~MW ($7.5\cdot 10^{13}$ protons per cycle) later upgraded to 2.4~MW ($1.5-2.0 \cdot 10^{14}$ protons per cycle). The facility expects 
@@ -132,7 +133,7 @@ In addition to making the algorithms slower, pileup also leads to a loss of phys
 \item Reduced selection efficiencies for electrons and photons;
 \item Reconstruction efficiencies for hadronic tau decays and b-jets;
 \item Worse energy resolution for electrons, photons, taus, jets, and missing transverse energy;
-\item Worse reconstruction of jet properties (substructure for top/W-tagging, quark/gluon discrimination, etc);
+\item Worse reconstruction of jet properties (substructure for top/$W$-tagging, quark/gluon discrimination, etc);
 \end{itemize}
 
 The central challenge for object reconstruction at HL-LHC is thus to maintain excellent efficiency and resolution in the face of high pileup values, especially at low object transverse momenta. 
@@ -236,11 +237,11 @@ third of the LHCb experiment’s Run~2 trigger selections now use the real-time 
 of magnitude reduction in data volume from not saving the raw detector data, potentially reduced systematic errors in analysis due to differences in algorithms or calibrations used in the online 
 and offline processing, and a reduction or elimination of the need for offline processing. 
 
-High data rates made possible by reducing event size and by processing online abundant data exposes the problem with Monte Carlo (MC) simulation support for those data. MC production is the primary 
-consumer of computing resources. Luminosity increase will proportionally increase the amount of necessary MC samples, especially for pileup contribution in forward regions of calorimeters. The full 
-range GEANT simulation of these dense events will require corresponding increase of computing resources. The alternative solution is based on the fact that actual readout granularity of calorimeters 
-and other detectors, which are heavy for simulation, is significantly lower than the spatial precision of detailed GEANT simulation. This gives an opportunity to substitute detailed GEANT simulation 
-with much faster ML-based generative models, generating detector response with just right topology and granularity.
+%High data rates made possible by reducing event size and by processing online abundant data exposes the problem with Monte Carlo (MC) simulation support for those data. MC production is the primary 
+%consumer of computing resources. Luminosity increase will proportionally increase the amount of necessary MC samples, especially for pileup contribution in forward regions of calorimeters. The full 
+%range GEANT simulation of these dense events will require corresponding increase of computing resources. The alternative solution is based on the fact that actual readout granularity of calorimeters 
+%and other detectors, which are heavy for simulation, is significantly lower than the spatial precision of detailed GEANT simulation. This gives an opportunity to substitute detailed GEANT simulation 
+% much faster ML-based generative models, generating detector response with just right topology and granularity.
 
 These advantages allow an entire category of physics to be probed by HL-LHC experiments that would not otherwise be considered. Among the challenges posed by these approaches are the need for 
 very robust event reconstruction algorithms, the need to derive detector calibrations sufficient for final analysis within this short processing window, and the need to plan analyses sufficiently 
@@ -308,11 +309,12 @@ must facilitate contributions from a range of developers while adjusting to chal
 In this section, we summarize current practices and resource requirements for software trigger and event reconstruction implementation and infrastructure needs. These include the scale of resource 
 requirements for these activities, the type of data structures and data contents kept for custodial storage and analysis use, and calibration technique requirements across different experiments in 
 high-energy physics. For each topic, we will briefly introduce the issues and then summarize experiment specific implementation details where available. This is meant to provide a representative 
-range of approaches and to illustrate where the most challenging aspects are.
+range of approaches and to illustrate where the most challenging aspects are. Approaches from all experiments are not always included, as this information is summarized 
+from working-group contributions. 
 
 \subsection{Computing Resource Requirements}
 
-The table below summarizes the online and offline computing requirements of current and future experiments. Not all quantities can be measured for all experiments, and many items evolve depending 
+The table below summarizes the online and offline computing requirements of current and future experiments. Not all quantities are relevant for all experiments, and many items evolve depending 
 on where in the lifecycle an experiment is. For example, disk requirements depend both on the number of events collected in a given running period but also on how long the experiment has been 
 collecting data still of relevance for current analysis activities. More information about each online and offline computing system can be found in the 
 references \cite{ALICE2015, Allton2017, ATLAS2015, CMS2015, DUNE2015, DUNE2017, LHCb2017, Miyamoto2015, Richter2016}.
@@ -396,9 +398,9 @@ $>2$ GB/s&
 ALICE (2017) &
 9k \newline CPU cores, \newline 180 GPUs &
 805&
-0.3\newline (central Pb-Pb)&
+0.3\newline (central \newline Pb-Pb)&
 &
-100\newline (central Pb-Pb) &
+100\newline (central \newline Pb-Pb) &
 &
 66 \\ \hline
 ALICE (Run 3) &
@@ -555,7 +557,7 @@ work over the next decade. These  are:
 \item Enhanced vectorization programming techniques
 \item Algorithms and data structures to efficiently exploit many-core architectures
 \item Algorithms and data structures for non-x86 computing architectures (e.g., GPUs, FPGAs)
-\item Enhanced QA/QC for reconstruction techniques
+\item Enhanced quality assurance (QA) and quality control (QC) for reconstruction techniques
 \item Real-time analysis
 \item Precision physics-object reconstruction, identification and measurement techniques
 \item Fast software trigger and reconstruction algorithms for high-density environments
@@ -620,12 +622,12 @@ improvements on certain architectures. Deploy prototypes for limited scale opera
 \noindent {\bf Long-term goals}: Demonstrate ability of event reconstruction applications to reliably use and benefit from heterogenous computing facilities on a distributed computing system. 
 Define cost-benefit metrics to use to guide facility providers for providing the largest event throughput in cases where HEP controls the mix of hardware to be purchased.
 
-\subsection{Roadmap area 4: Enhanced Q/A Q/C for reconstruction techniques}
+\subsection{Roadmap area 4: Enhanced QA/QC for reconstruction techniques}
 \noindent {\bf Motivation}: HEP experiments have extensive continuous integration systems, including varying types of code regression checks. These are typically maintained by individual experiments 
 and have not yet reached the scale where statistical regression checks, as well as technical and physics performance can be enabled for each proposed software change.
 
 \vskip 0.5cm
-\noindent {\bf Overall goal}: Enable the development, automation, and deployment of extended Q/A and Q/C tools and facilities for software trigger and event reconstruction algorithms. 
+\noindent {\bf Overall goal}: Enable the development, automation, and deployment of extended QA and QC tools and facilities for software trigger and event reconstruction algorithms. 
 
 \vskip 0.5cm
 \noindent {\bf Short-term goals}: Discuss integration and testing systems currently used by experiments to formulate requirements for scope and scale needed for a common integration system 
