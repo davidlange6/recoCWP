@@ -11,8 +11,8 @@ CNAF: Centro Nazionale Analisi Fotogrammi (CNAF), INFN, Bologna, Italy
 Cornell: Cornell University, Ithaca, NY, USA
 CPHC: Center for High Performance Computing, Cape Town, South Africa
 DESY: Deutsches Elektronen-Synchrotron, Hamburg, Germany
-EPFL: Institute of Physics, École Polytechnique Fédérale de Lausanne (EPFL), Lausanne, Switzerland
-ETHZurich: ETH Zürich - Institute for Particle Physics and Astrophysics (IPA), Zürich, Switzerland
+EPFL: Institute of Physics, École Polytechnique F\'ed\'erale de Lausanne (EPFL), Lausanne, Switzerland
+ETHZurich: ETH Z\"urich - Institute for Particle Physics and Astrophysics (IPA), Z\"urich, Switzerland
 Fermilab: Fermi National Accelerator Laboratory, Batavia, IL, USA
 HAMBURG: University of Hamburg, Hamburg, Germany
 HIP: Helsinki Institute of Physics, Helsinki, Finland
@@ -44,14 +44,14 @@ LAL: LAL, Université Paris-Sud and CNRS/IN2P3, Orsay, France
 LBNL: Lawrence Berkeley National Laboratory and University of California, Berkeley, CA, USA
 LIP: Laboratório de Instrumentação e Física Experimental de Partículas (LIP), Lisboa, Portugal
 LLR: Laboratoire Leprince-Ringuet, École Polytechnique, CNRS/IN2P3, Université Paris-Saclay, Palaiseau, France
-LMU: Fakultät für Physik, Ludwig-Maximilians-Universität München, München, Germany
+LMU: Fakult\"at f\"ur Physik, Ludwig-Maximilians-Universit\"at M\"unchen, M\"unchen, Germany
 LPCClermont: Laboratoire de Physique Corpusculaire, Clermont Université and Université Blaise Pascal and CNRS/IN2P3, Clermont-Ferrand, France
 LPNHE: LPNHE, Université Pierre et Marie Curie, Université Paris Diderot, CNRS/IN2P3, Paris, France
 LPSC: Laboratoire de Physique Subatomique et de Cosmologie, Université Joseph Fourier and CNRS/IN2P3 and Institut National Polytechnique de Grenoble, Grenoble, France
-MIT: Department of Physics, University of Massachusetts, Amherst, MA, USA
+MIT: Laboratory for Nuclear Science, Massachusetts Institute of Technology, Cambridge, MA, USA
 MPP: Max-Planck-Institut für Physik (Werner-Heisenberg-Institut), München, Germany
 NBI: Niels Bohr Institute, University of Copenhagen, Kobenhavn, Denmark
-NIKHEF: Nikhef National Institute for Subatomic Physics and University of Amsterdam, Amsterdam, Netherlands
+NIKHEF: Nikhef National Institute for Subatomic Physics and Vrije Universiteit Amsterdam, Amsterdam, The Netherlands
 NYU: Department of Physics, New York University, New York, NY, USA
 OREGON: Center for High Energy Physics, University of Oregon, Eugene, OR, USA
 PIC: Port d’Informació Científica (PIC), Universitat Autònoma de Barcelona (UAB), Barcelona, Spain
@@ -115,9 +115,9 @@ UUdine: Dipartimento di Chimica, Fisica e Ambiente, Università di Udine, Udine,
 UWarwick: Department of Physics, University of Warwick, Coventry, United Kingdom
 UWisconsin: University of Wisconsin - Madison, Madison, WI, USA
 UYale: Department of Physics, Yale University, New Haven, CT, USA
-UZurich: Physik-Institut, Universität Zürich, Zürich, Switzerland
+UZurich: Physik-Institut, Universit\"at Z\"urich, Z\"urich, Switzerland
 VAST: IOP and GUST, Vietnam Academy of Science and Technology (VAST), Hanoi, Vietnam
 VIRTECH: Virginia Tech, Blacksburg, Virginia, VA, USA
 SMU: Physics Department, Southern Methodist University, Dallas TX, United States of America
 GSI: GSI Helmholtzzentrum f\"ür Schwerionenforschung GmbH, Planckssße 1, 64291 Darmstadt, Germany
-HSEYSDA: Yandex School of Data Analysis, Moscow, Russia
+HSEYSDA: National Research University Higher School of Economics, Moscow, Russia;  Yandex School of Data Analysis, Moscow, Russia

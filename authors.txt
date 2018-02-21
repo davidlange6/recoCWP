@@ -1,11 +1,10 @@
 Albrecht, Johannes   - TUDortmund 
-Bloom, Ken  - UNebraska 
+Bloom, Kenneth  - UNebraska 
 Boccali,Tommaso   - INFNPISA
-Boveia, Antonio   - UOhio
+Boveia, Antonio   - UOhio (3)
 De Cian, Michel   - UHeidelberg 
 Doglioni,Caterina   - ULund (2)
 Dziurda,Agnieszka   - CERN 
-Elsing,Markus   - CERN 
 Farbin,Amir   - UTexas
 Fitzpatrick,Conor   - EPFL 
 Gaede,Frank   - DESY 
@@ -16,7 +15,6 @@ Grillo,Lucia   - UManchester
 Hegner,Benedikt   - CERN 
 Kalderon,William   - ULund
 Kama,Sami   - SMU 
-Kollegger,Thorsten   - GSI
 Koppenburg,Patrick   - NIKHEF
 Krutelyov,Slava   - UCSD
 Kutschke,Rob   - Fermilab 
@@ -37,9 +35,8 @@ Salzburger,Andy   - CERN
 Sexton Kennedy,Liz  - Fermilab 
 Sokoloff,Michael D   - UCincinnati 
 Stewart,Graeme   - CERN 
-Al-Turany,Mohammad   - GSI  
 Ustyuzhanin,Andrey   - HSEYSDA 
-Viren,Brett   - Fermilab 
+Viren,Brett   - BNL
 Williams,Mike   - MIT 
 Winklmeier,Frank   - OREGON
 Wuerthwein,Frank   - UCSD
